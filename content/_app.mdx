@@ -1,0 +1,63 @@
+import {Meta, Stylesheet} from "@canopy-iiif/app/head";
+import {CanopyHeader, CanopyFooter} from "@canopy-iiif/app/ui";
+
+export const NU_CDN = "https://common.northwestern.edu/v8/css";
+
+export function Head() {
+  return (
+    <>
+      <Meta />
+      <link rel="preconnect" href="https://common.northwestern.edu" crossOrigin="anonymous" />
+      <link
+        rel="preload"
+        href={`${NU_CDN}/fonts/AkkuratProRegular.woff2`}
+        as="font"
+        type="font/woff2"
+        crossOrigin="anonymous"
+      />
+      <link
+        rel="preload"
+        href={`${NU_CDN}/fonts/AkkuratProBold.woff2`}
+        as="font"
+        type="font/woff2"
+        crossOrigin="anonymous"
+      />
+      <link
+        rel="preload"
+        href={`${NU_CDN}/fonts/Poppins-Bold.woff`}
+        as="font"
+        type="font/woff"
+        crossOrigin="anonymous"
+      />
+      <Stylesheet />
+    </>
+  );
+}
+
+export function App({children}) {
+  return (
+    <>
+      {/* v4-style top bar: the white wordmark links to northwestern.edu. The
+          header below carries the site name from canopy.yml `title`. */}
+      <div className="nu-top-bar">
+        <a href="https://www.northwestern.edu/">
+          <img className="nu-wordmark" src={`${NU_CDN}/images/northwestern.svg`} alt="Northwestern University" />
+        </a>
+      </div>
+      <CanopyHeader />
+      <main>{children}</main>
+      <CanopyFooter>
+        <a href="https://www.northwestern.edu/" aria-label="Northwestern University">
+          <img className="nu-wordmark" src={`${NU_CDN}/images/northwestern.svg`} alt="" />
+        </a>
+        <p>
+          <a href="https://www.library.northwestern.edu/">Northwestern University Libraries</a>
+        </p>
+        <p>
+          © 2026 Northwestern University. Built with{" "}
+          <a href="https://nulib-ds.github.io/canopy/">Canopy IIIF</a>.
+        </p>
+      </CanopyFooter>
+    </>
+  );
+}
