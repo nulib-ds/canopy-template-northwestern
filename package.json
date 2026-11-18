@@ -1,0 +1,27 @@
+{
+  "name": "@canopy-iiif/app-root",
+  "version": "2.0.2",
+  "description": "An open-source static site generator designed for fast creation, contextualization, and customization of a discovery-focused digital scholarship and collections website using IIIF APIs.",
+  "private": true,
+  "scripts": {
+    "build": "canopy build",
+    "dev": "canopy dev"
+  },
+  "author": "Mat Jordan <mat@northwestern.edu>",
+  "homepage": "https://nulib-ds.github.io/canopy/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nulib-ds/canopy.git",
+    "directory": "packages/app"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=24.0.0",
+    "npm": ">=10.0.0"
+  },
+  "dependencies": {
+    "@nulib/canopy": "^2.0.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}

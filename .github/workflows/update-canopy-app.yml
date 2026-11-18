@@ -1,0 +1,62 @@
+name: Update Canopy App
+
+on:
+  workflow_dispatch:
+    inputs:
+      npm_version:
+        description: "Optional @nulib/canopy version (default latest)"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: npm
+
+      - name: Install updated packages
+        env:
+          APP_VERSION: ${{ github.event.inputs.npm_version }}
+        # Clover, esbuild and Tailwind come with @nulib/canopy since Canopy 2.
+        run: |
+          npm config set fund false
+          npm config set audit false
+          APP_TARGET=${APP_VERSION:-latest}
+          npm install --no-audit --no-fund @nulib/canopy@"${APP_TARGET}"
+
+      - name: Record changes
+        id: git-status
+        run: |
+          if git diff --quiet HEAD -- package.json package-lock.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create pull request
+        if: steps.git-status.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: chore/update-canopy-app
+          commit-message: "chore: update @nulib/canopy"
+          title: "chore: update @nulib/canopy"
+          body: |
+            Automated update of `@nulib/canopy` triggered from the Actions tab.
+
+            Review the diff, run `npm install`, and rerun your usual checks before merging.
+          delete-branch: true
+
+      - name: No update needed
+        if: steps.git-status.outputs.changed != 'true'
+        run: echo "@nulib/canopy is already up to date."

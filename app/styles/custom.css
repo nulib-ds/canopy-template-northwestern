@@ -1,0 +1,10 @@
+/**
+ * Project-specific styles.
+ *
+ * Northwestern's brand tokens and header/footer treatment live in
+ * `northwestern.css`. Add your own overrides here so brand updates can be
+ * pulled in without merge conflicts. Custom properties set here override
+ * both `northwestern.css` and the generated theme, without `!important`.
+ *
+ * @see https://nulib-ds.github.io/canopy/docs/theme/
+ */
